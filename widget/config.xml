@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget id="A6948657753516"  version="0.0.1">
+    <name>Hello APP</name>
+    <description>
+        Example For APICloud.
+    </description>
+    <author email="developer@apicloud.com" href="http://www.apicloud.com">
+        Developer
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+	<preference name="windowBackground" value="rgba(255,255,255,0.0)"/>
+    <preference name="iOS7StatusBarAppearance" value="false" />
+    <preference name="statusBarAppearance" value="false" />
+</widget>

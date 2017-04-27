@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>京东</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style type="text/css">
+    html,body{
+        height: 100%;
+    }
+    header{
+        width: 100%;
+        background:-moz-linear-gradient(top, rgba(197, 197, 197, 1), rgba(255, 255, 255, 1));
+        background:-webkit-gradient(linear, 0 0, 0 bottom, from(#c5c5c5), to(rgba(255, 255, 255, 1)));
+        text-align: center;
+    }
+    .search-box{
+        position: relative;
+    }
+    #search{
+        height: 30px;
+        background: #fff;
+        width:70%;
+        padding: 0 0 0 30px ;
+        border-radius: 30px 30px;
+        margin:8px;
+    }
+    .search-icon{
+        height: 16px;
+        width: 16px;
+        background:url("../image/search.png") no-repeat; 
+        position: absolute;
+        top:15px;
+        left: 13%;
+    }
+    #main{
+        -webkit-box-flex: 1; 
+        -webkit-flex: 1;
+        flex: 1;
+    }
+    nav{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-flex-flow: row;
+        flex-flow: row;
+        width: 100%;
+        height: 40px;
+        position: fixed;
+        bottom: 0px;
+    }
+    nav .menu{
+        -webkit-box:1;
+        -webkit-flex:1;
+        flex:1;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        font-size: 13px;
+        color: #333;
+        text-align: center;
+        background: #fff;
+        border-top: 1px solid #ccc;
+    }
+    nav .menu_selected{
+        color: red !important;
+    }
+    </style>
+</head>
+<body>
+    
+        <header id="header" class="">
+            <div class="search-box">
+                <span class="search-icon"></span>
+                <input type="text" name="search" placeholder="搜索" id="search" onclick="fnOpenSearch()">
+            </div> 
+        </header><!-- /header -->
+        <nav id="nav">
+            <div class="menu menu_selected" onclick="fnSetNavFrame(0)">首页</div>
+            <div class="menu" onclick="fnSetNavFrame(1)">分类</div>
+            <div class="menu" onclick="fnSetNavFrame(2)">觅Me</div>
+            <div class="menu" onclick="fnSetNavFrame(3)">购物车</div>
+            <div class="menu" onclick="fnSetNavFrame(4)">我的</div>
+        </nav>
+        <div id="main">
+                
+        </div>
+        <footer id="footer" class="">
+            
+        </footer>
+        
+    
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    var menus = $api.domAll(nav, '.menu');
+    apiready = function(){
+        var winHeight = api.winHeight;
+        var header = $api.byId('header');
+        var nav = $api.byId('nav');
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+        var navH = $api.offset(nav).h;
+        var frames =[];
+
+        for(var i=0;i<menus.length;i++){
+            frames.push({
+                name: 'main_frame_' + i, 
+                url: './main_frame.html',
+            });
+        }
+        api.openFrameGroup ({
+            name: 'MainFrameGroup',
+            background: '#fff',
+            scrollEnabled: true,
+            rect: {
+                 x: 0, 
+                 y: headerH, 
+                 w: 'auto', 
+                 h: winHeight-headerH-navH,
+            },
+            index: 0,
+            frames: frames,
+        }, function(ret, err){
+            fnSelectFrame(ret.index);
+        });
+    };
+
+    function fnSelectFrame(index_){
+        for(i=0;i<menus.length;i++){
+            if(index_==i){
+                $api.addCls(menus[i], 'menu_selected');
+            }else{
+                $api.removeCls(menus[i], 'menu_selected');
+            }
+        }
+    }
+
+    function fnSetNavFrame(index_){
+        api.setFrameGroupIndex({
+            name: 'MainFrameGroup',
+            index: index_,
+            scroll: true
+        });
+    }
+</script>
+</html>
